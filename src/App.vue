@@ -5,7 +5,6 @@
   <section class='document' :class="{ 'dark-mode': isDark }">
     <the-header></the-header>
     <div id="content" >
-      <!-- <router-view/> -->
       <router-view v-slot="slotProps">
         <transition name="route" mode="out-in">
           <component :is="slotProps.Component"></component>
