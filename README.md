@@ -1,4 +1,5 @@
-# testy-oprogramowania
+# Forum about software testing
+# Vue.js project with Vuex, Composition API and Firebase
 
 ## Project setup
 ```
