@@ -1,16 +1,16 @@
 <template>
   <teleport to="body">
-    <div v-if="show" @click="tryClose" class="backdrop"></div>
-    <dialog open v-if="show">
-        <header>
+    <div v-if="show" @click="tryClose" class="fixed top-0 left-0 h-screen w-full bg-black bg-opacity-75 z-10"></div>
+    <dialog open v-if="show" class="fixed top-[20vh] left-[10%] w-[80%] z-[100] rounded-lg border-none shadow-lg p-0 m-0 overflow-hidden bg-white md:left-1/2 md:w-[40rem] md:transform md:-translate-x-1/2">
+        <header class="bg-project-green text-white w-full p-4">
             <slot name="header">
-                <h2>{{ title }}</h2>
+                <h2 class="m-0">{{ title }}</h2>
             </slot>
         </header>
-        <section>
+        <section class="p-4">
             <slot></slot>
         </section>
-        <menu v-if="!fixed">
+        <menu v-if="!fixed" class="p-4 flex justify-end m-0">
             <slot name="actions">
                 <base-button @click="tryClose" mode="normal">Zamknij</base-button>
             </slot>
@@ -20,8 +20,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import { defineEmits } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
     show: {
@@ -47,57 +46,9 @@ function tryClose(){
     }
     emit('close')
 }
-
 </script>
 
 <style scoped>
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
-  z-index: 10;
-}
-
-dialog {
-  position: fixed;
-  top: 20vh;
-  left: 10%;
-  width: 80%;
-  z-index: 100;
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  background-color: white;
-}
-
-header {
-  background-color: #4BD648;
-  color: white;
-  width: 100%;
-  padding: 1rem;
-}
-
-header h2 {
-  margin: 0;
-}
-
-section {
-  padding: 1rem;
-}
-
-menu {
-  padding: 1rem;
-  display: flex;
-  justify-content: flex-end;
-  margin: 0;
-}
-
 .dialog-enter-from,
 .dialog-leave-to {
   opacity: 0;
@@ -116,12 +67,5 @@ menu {
 .dialog-leave-from {
   opacity: 1;
   transform: scale(1);
-}
-
-@media (min-width: 768px) {
-  dialog {
-    left: calc(50% - 20rem);
-    width: 40rem;
-  }
 }
 </style>

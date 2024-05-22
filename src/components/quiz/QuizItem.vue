@@ -1,30 +1,28 @@
 <template>
-  <li :class="{ 'dark-mode': isDark, [difficulty]: true }">
+  <li :class="{ 'dark-mode': isDark, [difficultyClass]: true }" class="m-4 p-4 border rounded-lg">
     <div id="top">
-      <h2>{{ question.question }}</h2>
+      <h2 class="my-4 text-lg font-bold">{{ question.question }}</h2>
     </div>
-    <div id="options">
-      <div class="option">
-        <input type="radio" :name="question.id" :id="`option-one-${question.id}`" @change="setAnswer(1)">
-        <label :for="`option-one-${question.id}`">{{ question.answers[1] }}</label>
+    <div id="options" class="flex justify-between items-center">
+      <div class="option flex-1 mr-2">
+        <input type="radio" :name="question.id" :id="`option-one-${question.id}`" @change="setAnswer(1)" class="hidden">
+        <label :for="`option-one-${question.id}`" class="block py-2 px-4 rounded-lg bg-gray-600 text-white cursor-pointer transition-colors duration-300 hover:bg-gray-700 select-none">{{ question.answers[1] }}</label>
       </div>
-      <div class="option">
-        <input type="radio" :name="question.id" :id="`option-two-${question.id}`" @change="setAnswer(2)">
-        <label :for="`option-two-${question.id}`">{{ question.answers[2] }}</label>
+      <div class="option flex-1 mx-2">
+        <input type="radio" :name="question.id" :id="`option-two-${question.id}`" @change="setAnswer(2)" class="hidden">
+        <label :for="`option-two-${question.id}`" class="block py-2 px-4 rounded-lg bg-gray-600 text-white cursor-pointer transition-colors duration-300 hover:bg-gray-700 select-none">{{ question.answers[2] }}</label>
       </div>
-      <div class="option">
-        <input type="radio" :name="question.id" :id="`option-three-${question.id}`" @change="setAnswer(3)">
-        <label :for="`option-three-${question.id}`">{{ question.answers[3] }}</label>
+      <div class="option flex-1 ml-2">
+        <input type="radio" :name="question.id" :id="`option-three-${question.id}`" @change="setAnswer(3)" class="hidden">
+        <label :for="`option-three-${question.id}`" class="block py-2 px-4 rounded-lg bg-gray-600 text-white cursor-pointer transition-colors duration-300 hover:bg-gray-700 select-none">{{ question.answers[3] }}</label>
       </div>
     </div>
   </li>
 </template>
 
-
 <script setup>
 import { useStore } from 'vuex';
 import { computed, defineProps, defineEmits } from 'vue';
-
 
 const store = useStore()
 
@@ -33,25 +31,23 @@ const props = defineProps({
 })
 
 //dark mode
-const isDark = computed(function(){
-    return store.getters['getDarkMode']
-})
+const isDark = computed(() => store.getters['getDarkMode'])
 
 // color based on difficulty
-const difficulty = computed(function(){
-      if(props.question.points === 1){
-        return 'green'
-      }else if(props.question.points === 2){
-        return 'yellow'
-      }else {
-        return 'red'
-      }
-})
+const difficultyClass = computed(() => {
+  if (props.question.points === 1) {
+    return 'border-2 border-green-500';
+  } else if (props.question.points === 2) {
+    return 'border-2 border-yellow-500';
+  } else {
+    return 'border-2 border-red-500';
+  }
+});
 
 // setting answer
 const emit = defineEmits(['set-answer']);
 
-function setAnswer(value){
+function setAnswer(value) {
   const updatedAnswer = {
     [props.question.id]: value
   }
@@ -60,76 +56,30 @@ function setAnswer(value){
 </script>
 
 <style scoped>
-li {
-  margin: 1rem 0;
-  border: 2px solid rgb(66, 66, 66);
-  border-radius: 25px;
-  padding: 1rem;
-}
-li:not(.dark-mode) {
-  transition: 2s;
-}
-li.red {
-  border: 2px solid rgb(255, 77, 77);
-}
-li.yellow:not(.dark-mode) {
-  border: 2px solid rgb(255, 222, 77);
-  transition: 2s;
-}
-li.yellow.dark-mode {
-  border: 2px solid rgb(243, 255, 77);
-  transition: 2s;
-}
-li.green {
-  border: 2px solid rgb(83, 255, 77);
-}
 h2 {
   margin: 1rem;
 }
-#options {
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 1rem;
-  border-radius: 8px;
-}
-.option {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 30%;
-  margin: 0 1%; 
-  padding: 0.5rem;
-  background-color: #d4d4d4;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-}
-.option input {
-  margin-bottom: 0.5rem;
-}
-.option input + label{
-  cursor: pointer;
-  padding: 0.5rem;
-  background-color: rgb(160, 158, 158);
-  color: white;
-  border-radius: 8px;
-  width: 100%;
-  text-align: center;
-}
-.option input:checked + label {
-  background-color: grey;
+
+input:checked + label {
+  background-color: gray;
   color: #4BD648;
   font-weight: bold;
-  border-radius: 8px;
-  width: 100%;
-  text-align: center;
 }
-p {
-  margin-bottom: 0;
+
+li {
+  transition: 2s;
 }
-a {
-  text-decoration: none;
-  color: #4BD648;
-  font-weight: bold;
+
+.dark-mode li {
+  transition: 2s; 
+}
+
+.dark-mode input:checked + label {
+  background-color: #4A5568;
+}
+
+.option label {
+  font-size: 1rem;
+  background-color: #a0a0a0;
 }
 </style>

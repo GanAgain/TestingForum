@@ -1,34 +1,50 @@
 <template>
-  <header>
-    <nav>
-      <ul>
+  <header class="w-full bg-project-green py-2 min-h-16">
+    <nav class="container mx-auto flex flex-wrap justify-between items-center">
+      <ul class="flex space-x-6">
         <li>
-          <router-link to="/articles">Artykuły</router-link>
+          <router-link to="/articles" class="text-white hover:text-gray-700">
+            Artykuły
+          </router-link>
+        </li>
+        <li v-if="isAuthenticated">
+          <router-link to="/quiz" class="text-white hover:text-gray-700">
+            Quiz
+          </router-link>
         </li>
         <li>
-          <router-link v-if="isAuthenticated" to="/quiz">Quiz</router-link>
-        </li>
-        <li>
-          <router-link to="/tests">Testy</router-link>
+          <router-link to="/tests" class="text-white hover:text-gray-700">
+            Testy
+          </router-link>
         </li>
         <li v-if="isAdmin">
-          <router-link to="/create">Utwórz Artykuł</router-link>
+          <router-link to="/create" class="text-white hover:text-gray-700">
+            Utwórz Artykuł
+          </router-link>
         </li>
         <li v-if="isAdmin">
-          <router-link to="/quiz/create">Utwórz Pytania do Quizu</router-link>
+          <router-link to="/quiz/create" class="text-white hover:text-gray-700">
+            Utwórz Pytania do Quizu
+          </router-link>
         </li>
         <li v-if="!isAuthenticated">
-          <router-link to="/auth">Zaloguj się</router-link>
+          <router-link to="/auth" class="text-white hover:text-gray-700">
+            Zaloguj się
+          </router-link>
         </li>
         <li v-else>
-          <p @click="logout">Wyloguj się</p>
+          <p @click="logout" class="text-white cursor-pointer hover:text-gray-700">
+            Wyloguj się
+          </p>
         </li>
         <li>
-          <p @click="changeDarkMode">Dark Mode</p>
+          <p @click="changeDarkMode" class="text-white cursor-pointer hover:text-gray-700">
+            Dark Mode
+          </p>
         </li>
       </ul>
-      <p v-if="isAuthenticated" class="welcome">
-          Witaj, {{ userName }}
+      <p v-if="isAuthenticated" class="text-white mt-4 md:mt-0">
+        Witaj, {{ userName }}
       </p>
     </nav>
   </header>
@@ -67,103 +83,35 @@ function logout(){
 
 </script>
 
-
 <style scoped>
 header {
-  width: 100%;
-  background-color: #4BD648;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 1.4rem;
 }
 
-header a,
-p {
-  text-decoration: none;
-  color: #ffffff;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-}
-h1 a,
-p {
-  color: white;
-  margin: 0.5rem 0;
-}
-a:active,
-a:hover,
-a.router-link-active,
-p:hover {
-  border-color: transparent;
-  color: #696969;
-  cursor: pointer;
+nav ul li {
+  padding: 8px 12px; /* Dodany padding od góry i dołu */
 }
 
-header nav {
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-header ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-li {
-  margin: 0.5rem;
-}
-
-.welcome {
-  margin-left: auto;
-}
-
-.welcome:hover {
-  color: white;
-  cursor: default;
+nav ul li a.router-link-exact-active {
+  color: #696969; /* Kolor czcionki dla zaznaczonego elementu */
 }
 
 @media (max-width: 768px) {
   header {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Zmniejszona wielkość czcionki dla linków na mniejszych ekranach */
   }
-
-  header nav {
-    flex-direction: column;
-  }
-
-  header ul {
-    flex-direction: column;
-  }
-
-  li {
-    margin: 0.25rem 0;
-  }
-
-  .welcome {
-    margin-left: 0;
-    margin-top: 0.5rem;
+  nav ul li {
+    margin: 0.5rem;
   }
 }
-
-@media (max-width: 480px) {
+@media (max-width: 992px) {
   header {
-    font-size: 1rem;
-    padding: 0.25rem 0;
+    font-size: 1.2rem; /* Zmniejszona wielkość czcionki dla linków na mniejszych ekranach */
   }
-
-  header a,
-  p {
-    padding: 0.25rem 0.5rem;
+}
+@media (min-width: 1350px) {
+  header {
+    height: 4rem; /* Zmniejszona wielkość czcionki dla linków na mniejszych ekranach */
   }
 }
 </style>

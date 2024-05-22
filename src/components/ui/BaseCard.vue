@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="mode">
+  <div :class="['rounded-lg mx-auto p-8 max-w-3xl', mode && mode === 'auth' ? 'border-2 border-gray-300' : '']">
     <slot></slot>
   </div>
 </template>
@@ -15,15 +15,3 @@ const props = defineProps({
     }
 })
 </script>
-
-<style scoped>
-.card{
-    border-radius: 12px;
-    margin: 0 auto;
-    padding: 2rem;
-    max-width: 60%;
-}
-.auth{
-  border: 2px solid lightgrey;
-}
-</style>

@@ -35,7 +35,7 @@ export default{
 
         if(!response.ok){
             const error = new Error(
-                responseData.message || 'Nie udało się załozyć konta. Ten Email może być zajęty.'
+                responseData.message || 'Nie udało się zalogować. Ten Email może być zajęty.'
             );
             throw error
         }

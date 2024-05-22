@@ -1,28 +1,26 @@
 <template>
-  <section>
+  <section class="pt-12">
     <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
-        <p>{{ error }}</p>
+      <p>{{ error }}</p>
     </base-dialog>
     <base-card mode="auth">
-      <h2>{{ switchModeHeader }}</h2>
-      <form @submit.prevent="submitForm">
+      <h2 class="text-2xl">{{ switchModeHeader }}</h2>
+      <form @submit.prevent="submitForm" class="m-4 p-4">
         <div class="form-control" v-if="mode === 'signup'">
-          <label for="name">Nazwa</label>
-          <input type="name" id="name" v-model.trim="name">
+          <label for="name" class="font-bold">Nazwa</label>
+          <input type="name" id="name" v-model.trim="name" class="block w-full border-2 border-gray-300 rounded-md p-2">
         </div>
         <div class="form-control">
-          <label for="email">E-Mail</label>
-          <input type="email" id="email" v-model.trim="email">
+          <label for="email" class="font-bold">E-Mail</label>
+          <input type="email" id="email" v-model.trim="email" class="block w-full border-2 border-gray-300 rounded-md p-2">
         </div>
         <div class="form-control">
-          <label for="password">Hasło</label>
-          <input type="password" id="password" v-model.trim="password">
+          <label for="password" class="font-bold">Hasło</label>
+          <input type="password" id="password" v-model.trim="password" class="block w-full border-2 border-gray-300 rounded-md p-2">
         </div>
-        <p
-            v-if="!formIsValid"
-          >Wstaw poprawny email i hasło! (hasło musi mieć minimum 6 znaków).</p>
-        <base-button mode="normal">{{ submitButtonCaption }}</base-button>
-        <base-button type="button" mode="flat" @click="switchAuthMode">{{ switchModeButtonCaption }}</base-button>
+        <p v-if="!formIsValid" class="text-red-500">Wstaw poprawny email i hasło! (hasło musi mieć minimum 6 znaków).</p>
+        <base-button mode="normal" class="mt-4">{{ submitButtonCaption }}</base-button>
+        <base-button type="button" mode="flat" @click="switchAuthMode" class="mt-2">{{ switchModeButtonCaption }}</base-button>
       </form>
     </base-card>
   </section>
@@ -119,26 +117,15 @@ function handleError(){
 
 </script>
 
-
 <style scoped>
-section{
-  padding-top: 3rem;
-}
-form {
-  margin: 1rem;
-  padding: 1rem;
-}
-
 .form-control {
   margin: 1rem 0;
 }
-
 label {
   font-weight: bold;
   margin-bottom: 0.5rem;
   display: block;
 }
-
 input {
   display: block;
   width: calc(100% - 2rem);
@@ -146,11 +133,9 @@ input {
   border: 1px solid #ccc;
   padding: 0.5rem;
 }
-
 input:focus {
   border-color: #4BD648;
   background-color: rgb(207, 207, 207);
   outline: none;
 }
-
 </style>

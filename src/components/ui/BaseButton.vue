@@ -1,8 +1,8 @@
 <template>
-  <button v-if="!link" :class="[mode, { 'dark-mode': isDark }]">
+  <button v-if="!link" :class="[modeClass, isDarkClass]">
     <slot></slot>
   </button>
-  <router-link v-else :to="to" :class="[mode, { 'dark-mode': isDark }]">
+  <router-link v-else :to="to" :class="[modeClass, isDarkClass]">
     <slot></slot>
   </router-link>
 </template>
@@ -32,45 +32,33 @@ const props = defineProps({
 })
 
 // dark mode
-const isDark = computed(function(){
-    return store.getters['getDarkMode']
+const isDark = computed(() => store.getters['getDarkMode'])
+
+// Mode classes
+const buttonVariants = {
+  normal: 'bg-project-green font-bold cursor-pointer text-white border-none rounded-full px-4 py-2 ml-auto mb-4 flex',
+  flat: 'text-black bg-transparent font-bold cursor-pointer border-2 border-project-green rounded-full px-4 py-2 ml-auto flex transition-transform duration-2000',
+}
+
+const modeClass = computed(() => {
+  switch (props.mode) {
+    case 'normal':
+      return buttonVariants.normal;
+    case 'flat':
+      return buttonVariants.flat;
+    default:
+      return '';
+  }
 })
 
+// Dark mode class
+const isDarkClass = computed(() => {
+  return props.mode === 'flat' && isDark.value ? 'text-white' : '';
+})
 </script>
 
 <style scoped>
-*{
+* {
   font-size: 1.1rem;
-}
-.normal {
-  background-color: #4BD648;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: .5rem 1rem;
-  margin-left: auto;
-  margin-bottom: 1rem;
-  display: flex;
-}
-.flat {
-  color: black;
-  background-color: inherit;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid #4BD648;
-  border-radius: 25px;
-  padding: .5rem 1rem;
-  margin-left: auto;
-  display: flex;
-  transform: 2s;
-}
-a{
-  transform: 2s;
-}
-.flat.dark-mode{
-  color: white;
-  transform: 2s;
 }
 </style>

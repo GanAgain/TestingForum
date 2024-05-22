@@ -87,7 +87,7 @@ body {
 
 #content{
   margin-top: 0;
-  min-height: calc(100vh - 10rem);
+  min-height: calc(100vh - 9rem);
 }
 
 .route-enter-from {

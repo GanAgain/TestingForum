@@ -1,13 +1,13 @@
 <template>
     <section>
         <base-dialog :show="!!error" title="Wystąpił Błąd!" @close="handleError">
-        <p>{{ error }}</p>
+            <p>{{ error }}</p>
         </base-dialog>
-        <h2 v-if="info.result">Twój najlepszy wynik: {{ info.result }}</h2>
-        <form @submit.prevent="submitQuiz">
+        <h2 v-if="info.result" class="mb-4 border-b-2 border-green-500 inline-block text-2xl mt-4 pt-2">Twój najlepszy wynik: {{ info.result }}</h2>
+        <form @submit.prevent="submitQuiz" class="max-w-6xl mx-auto">
             
             <base-spinner v-if="isLoading"></base-spinner>
-            <ul v-else-if="questionsExist && !isLoading">
+            <ul v-else-if="questionsExist && !isLoading" class="list-none m-8 p-0">
                 <QuizItem
                     v-for="question in questions"
                     :key="question.id"
@@ -15,9 +15,9 @@
                     @set-answer="addAnswer"
                 />
             </ul>
-            <h3 v-else style="text-align: center;">Nie udało się wczytać pytań do quizu!</h3>
-            <p v-if="!quizIsValid">Zaznacz wszystkie odpowiedzi!</p>
-            <base-button mode="normal">Potwierdź</base-button>
+            <h3 v-else class="text-center">Nie udało się wczytać pytań do quizu!</h3>
+            <p v-if="!quizIsValid" class="text-red-500">Zaznacz wszystkie odpowiedzi!</p>
+            <base-button mode="normal" class="mt-4">Potwierdź</base-button>
         </form>
     </section>
 </template>
@@ -32,14 +32,10 @@ const error = ref(null)
 const isLoading = ref(false)
 
 // user info
-const info = computed(function(){
-    return store.getters['users/userInfo']
-})
+const info = computed(() => store.getters['users/userInfo'])
 
 // questions
-const questionsExist = computed(function(){
-    return store.getters['quiz/questionsExist']
-})
+const questionsExist = computed(() => store.getters['quiz/questionsExist'])
 
 async function loadQuestions(){
     try{
@@ -53,9 +49,7 @@ async function loadQuestions(){
 
 loadQuestions()
 
-const questions = computed(function(){
-      return store.getters['quiz/questions']
-})
+const questions = computed(() => store.getters['quiz/questions'])
 
 // answers
 const answers = ref({})
@@ -97,21 +91,7 @@ function handleError(){
 
 </script>
 
+<!-- Styles -->
 <style scoped>
-form{
-    max-width: 60%;
-    margin: 0 auto;
-}
-ul{
-    list-style: none;
-    margin: 2rem auto;
-    padding: 0;
-    max-width: 100%;
-}
-h2{
-    margin: 0;
-    padding: 1rem;
-    border-bottom: 2px solid #4BD648;
-    display: inline-block;
-}
+/* Brak potrzeby stylów inline, więc pomijamy ten blok */
 </style>

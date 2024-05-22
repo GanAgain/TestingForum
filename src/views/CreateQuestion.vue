@@ -1,21 +1,22 @@
 <template>
-  <section>
+  <section class="pt-3">
     <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
       <p>{{ error }}</p>
     </base-dialog>
     <base-card mode="auth">
-      <h2>Utwórz pytanie</h2>
-      <form @submit.prevent="submitForm">
+      <h2 class="text-2xl">Utwórz pytanie</h2>
+      <form @submit.prevent="submitForm" class="mx-4 my-2 p-4  mx-auto">
+  <div class="form-control">
+    <label for="question" class="font-bold">Pytanie</label>
+    <input
+      type="text"
+      id="question"
+      v-model.trim="question"
+      class="block w-full border-2 border-gray-300 rounded-md p-2 text-black"
+    />
+  </div>
         <div class="form-control">
-          <label for="question">Pytanie</label>
-          <input
-            type="text"
-            id="question"
-            v-model.trim="question"
-          />
-        </div>
-        <div class="form-control">
-          <label>Punkty</label>
+          <label class="font-bold">Punkty</label>
           <div class="option-group">
             <div class="option">
               <input type="radio" name="points" :id="`points-one`" @change="setPoints(1)" class="difficulty-1">
@@ -31,57 +32,31 @@
             </div>
           </div>
         </div>
-        <div class="form-control">
-          <label for="ans1">Odpowiedź 1</label>
+        <div v-for="i in 3" :key="i" class="form-control">
+          <label :for="`ans${i}`" class="font-bold">Odpowiedź {{ i }}</label>
           <input
             type="text"
-            id="ans1"
-            v-model.trim="answers[1]"
+            :id="`ans${i}`"
+            v-model.trim="answers[i]"
+            class="block w-full border-2 border-gray-300 rounded-md p-2 text-black"
           />
         </div>
         <div class="form-control">
-          <label for="ans2">Odpowiedź 2</label>
-          <input
-            type="text"
-            id="ans2"
-            v-model.trim="answers[2]"
-          />
-        </div>
-        <div class="form-control">
-          <label for="ans3">Odpowiedź 3</label>
-          <input
-            type="text"
-            id="ans3"
-            v-model.trim="answers[3]"
-          />
-        </div>
-        <div class="form-control">
-          <label>Poprawna odpowiedź</label>
+          <label class="font-bold">Poprawna odpowiedź</label>
           <div class="option-group">
-            <div class="option">
-              <input type="radio" name="correct" :id="`correct-one`" @change="setAnswer(1)" :class="`difficulty-${points}`">
-              <label :class="{ 'dark-mode': isDark }" :for="`correct-one`">1</label>
-            </div>
-            <div class="option">
-              <input type="radio" name="correct" :id="`correct-two`" @change="setAnswer(2)" :class="`difficulty-${points}`">
-              <label :class="{ 'dark-mode': isDark }" :for="`correct-two`">2</label>
-            </div>
-            <div class="option">
-              <input type="radio" name="correct" :id="`correct-three`" @change="setAnswer(3)" :class="`difficulty-${points}`">
-              <label :class="{ 'dark-mode': isDark }" :for="`correct-three`">3</label>
+            <div class="option" v-for="i in 3" :key="i">
+              <input type="radio" name="correct" :id="`correct-${i}`" @change="setAnswer(i)" :class="`difficulty-${points}`">
+              <label :class="{ 'dark-mode': isDark }" :for="`correct-${i}`">{{ i }}</label>
             </div>
           </div>
         </div>
-        <p v-if="!questionIsValid">Wypełnij wszystkie pola!</p>
-        <base-button mode="normal">Dodaj Pytanie</base-button>
+        <p v-if="!questionIsValid" class="text-red-500">Wypełnij wszystkie pola!</p>
+        <base-button mode="normal" class="mt-4">Dodaj Pytanie</base-button>
       </form>
     </base-card>
   </section>
 </template>
 
-
-
-  
 <script setup>
 import { useStore } from 'vuex';
 import { ref, reactive, computed } from 'vue';
@@ -92,9 +67,7 @@ const error = ref(null)
 const router = useRouter()
 
 // dark mode
-const isDark = computed(function(){
-    return store.getters['getDarkMode']
-})
+const isDark = computed(() => store.getters['getDarkMode'])
 
 // form operations
 const question = ref('')
@@ -108,58 +81,51 @@ const answers = reactive({
 
 const points = ref('')
 
-function setPoints(val){
+function setPoints(val) {
   points.value = val
 }
 
 const correct = ref('')
 
-function setAnswer(val){
+function setAnswer(val) {
   correct.value = val
 }
 
-async function submitForm(){
+async function submitForm() {
+  if (question.value === '' || points.value === '' || correct.value === '' || Object.values(answers).some(answer => answer === '')) {
+    questionIsValid.value = false
+    return
+  }
 
-    if(question.value == '' || points.value == '' || correct.value == '' ||
-      Object.values(answers).some(answer => answer === '')
-    ){
-      questionIsValid.value = false
-      return
-    }
+  questionIsValid.value = true
+  const formData = {
+    pytanie: question.value,
+    punkty: points.value,
+    poprawna: correct.value,
+    odpowiedzi: answers
+  }
 
-    questionIsValid.value = true
-    const formData = {
-        pytanie: question.value,
-        punkty: points.value,
-        poprawna: correct.value,
-        odpowiedzi: answers
-    }
-
-    try{
-      await store.dispatch('quiz/addQuestion', formData)
-      router.replace('/articles')
-    } catch(err){
-      error.value = err.message || 'Nie udało się dodać pytania. Spróbuj później.';
-    }
+  try {
+    await store.dispatch('quiz/addQuestion', formData)
+    router.replace('/articles')
+  } catch (err) {
+    error.value = err.message || 'Nie udało się dodać pytania. Spróbuj później.'
+  }
 }
 
-// error  
-function handleError(){
+// error
+function handleError() {
   error.value = null
 }
-
 </script>
   
 <style scoped>
-section{
+.section {
   padding-top: 3rem;
 }
-h2{
+
+h2 {
   text-align: center;
-}
-form {
-  max-width: 40rem;
-  margin: 0 auto;
 }
 
 .form-control {
@@ -172,8 +138,7 @@ label {
   margin-bottom: 0.5rem;
 }
 
-input[type="text"],
-textarea {
+input[type="text"] {
   display: block;
   width: 100%;
   border: 1px solid #ccc;
@@ -207,7 +172,8 @@ textarea {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
-.option label.dark-mode{
+
+.option label.dark-mode {
   background-color: rgb(160, 158, 158);
 }
 
@@ -215,7 +181,8 @@ textarea {
   background-color: rgb(160, 158, 158);
   font-weight: bold;
 }
-.option input[type="radio"]:checked + label.dark-mode{
+
+.option input[type="radio"]:checked + label.dark-mode {
   background-color: grey;
 }
 
@@ -237,5 +204,4 @@ p {
   font-weight: bold;
   text-align: center;
 }
-
 </style>

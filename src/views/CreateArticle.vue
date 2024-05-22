@@ -1,29 +1,31 @@
 <template>
-  <section>
+  <section class="pt-8">
     <base-dialog :show="!!error" title="Wystąpił błąd!" @close="handleError">
-        <p>{{ error }}</p>
+      <p>{{ error }}</p>
     </base-dialog>
     <base-card mode="auth">
-      <h2>Utwórz artykuł</h2>
-      <form @submit.prevent="submitForm">
+      <h2 class="text-center text-2xl">Utwórz artykuł</h2>
+      <form @submit.prevent="submitForm" class="max-w-3xl mx-auto">
         <div class="form-control">
           <label for="title">Tytuł</label>
           <input
             type="text"
             id="title"
             v-model.trim="title"
+            class="border-2 border-gray-300 rounded-md p-2 w-full text-black focus:border-green-500"
           />
         </div>
-        <div class="form-control">
+        <div class="form-control mt-3">
           <label for="description">Treść</label>
           <textarea
             id="description"
             rows="10"
             v-model.trim="description"
+            class="border-2 border-gray-300 rounded-md p-2 w-full text-black focus:border-green-500"
           ></textarea>
         </div>
-        <p v-if="!articleIsValid">Tytuł i treść nie mogą być puste!</p>
-        <base-button mode="normal">Dodaj artykuł</base-button>
+        <p v-if="!articleIsValid" class="text-red-500">Tytuł i treść nie mogą być puste!</p>
+        <base-button mode="normal" class="mt-4">Dodaj artykuł</base-button>
       </form>
     </base-card>
   </section>
@@ -82,42 +84,3 @@ function handleError(){
 }
 
 </script>
-
-<style scoped>
-section{
-  padding-top: 3rem;
-}
-h2{
-  text-align: center;
-}
-form{
-    max-width: 40rem;
-    margin: 0 auto;
-}
-.form-control {
-  margin: 0.5rem 0;
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-input,
-textarea {
-  display: block;
-  width: 100%;
-  font: inherit;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-input:focus,
-textarea:focus{
-  border-color: #4BD648;
-  background-color: rgb(207, 207, 207);
-  outline: none;
-}
-</style>

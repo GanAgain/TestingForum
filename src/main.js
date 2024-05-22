@@ -7,6 +7,7 @@ import BaseCard from './components/ui/BaseCard.vue'
 import BaseDialog from './components/ui/BaseDialog.vue'
 import BaseSpinner from './components/ui/BaseSpinner.vue'
 import { MotionPlugin } from '@vueuse/motion';
+import './assets/tailwind.css'
 
 const app = createApp(App).use(router).use(store)
 
@@ -16,10 +17,10 @@ const components = {
     'base-spinner': BaseSpinner,
     'base-dialog': BaseDialog
 };
-  
+
 Object.entries(components).forEach(([name, component]) => {
     app.component(name, component);
 });
-  
+
 app.use(MotionPlugin)
 app.mount('#app')
