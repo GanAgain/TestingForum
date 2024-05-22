@@ -1,5 +1,6 @@
 # Forum about software testing
 # Vue.js project with Vuex, Composition API and Firebase
+## (switch to "tailwind" branch to see version with tailwind)
 
 ## Project setup
 ```
