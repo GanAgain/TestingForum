@@ -1,5 +1,5 @@
 # Forum about software testing
-# Vue.js project with Vuex, Composition API and Firebase
+# Vue.js project with Vuex, Composition API, Firebase and Tailwind
 
 ## Project setup
 ```
